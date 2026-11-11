@@ -38,3 +38,7 @@ Serve the `game-vault/` directory from a static HTTPS site (recommended for PWA 
 ## Art source
 
 The board plates and chips are original synthetic 3D material renders, not product photos or licensed art extracted from another game. `tools/photo_assets_v15.py` now includes the extra peg colors and remains the regeneration source for the v15-style 3D board assets. The old `ART_PIPELINE_V15.md` and `ART_PIPELINE_V14_HISTORY.md` are retained for reference.
+
+## V18 corridor correction
+
+Removed horizontal crossbars and hanging poles accidentally exposed by periodic arch atlas variants. The repeated arcade is now unobstructed at every station. The perspective-texture mipmapping introduced in v17 remains active to reduce shimmering; these are distinct causes of the reported bands. As with prior revisions, the browser runtime could not be screenshot-verified in the restricted sandbox.

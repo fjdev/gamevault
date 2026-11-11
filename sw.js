@@ -1,5 +1,5 @@
 // Game Vault v16: PBR-raster material plates, detachable 3D pieces and analog output.
-const CACHE='game-vault-v17-sharper-boards-corridor-mipmaps-1';
+const CACHE='game-vault-v18-clear-play-and-clean-corridor-2';
 const FILES=[
  './','./index.html','./vault.js','./vault.css','./dungeon.js','./manifest.webmanifest','./sw.js',
  './assets/icon-192.png','./assets/icon-512.png','./assets/fonts/vault-pixel.ttf',
@@ -10,7 +10,7 @@ const FILES=[
  './assets/art/mastermind-sigil.png','./assets/art/othello-sigil.png','./assets/art/battleship-sigil.png',
  './assets/art/mastermind-tabletop-v15.webp','./assets/art/othello-tabletop-v15.webp','./assets/art/battleship-tabletop-v15.webp',
  './assets/art/concept/mastermind-scene.webp','./assets/art/concept/othello-scene.webp','./assets/art/concept/battleship-scene.webp',
- './games/shared/ui.css','./games/shared/ui.js','./games/shared/scene.js','./games/shared/boards.js','./games/shared/photo.js',
+ './games/shared/ui.css','./games/shared/ui.js','./games/shared/scene.js','./games/shared/boards.js','./games/shared/photo.js','./games/shared/layout.js',
  './games/mastermind/','./games/mastermind/index.html','./games/mastermind/app.js','./games/mastermind/engine.js',
  './games/othello/','./games/othello/index.html','./games/othello/app.js','./games/othello/engine.js',
  './games/battleship/','./games/battleship/index.html','./games/battleship/app.js','./games/battleship/engine.js','./games/battleship/placement.js'

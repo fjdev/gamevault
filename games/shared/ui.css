@@ -175,3 +175,33 @@ body[data-game='mastermind'],body[data-game='othello'],body[data-game='battleshi
 .chip-name{font-family:system-ui,-apple-system,sans-serif;font-weight:700;font-size:9px;letter-spacing:0;line-height:1.1;color:#f5eddb}
 .setting-note,.pixel-button span small,.modal p,.help-content{line-height:1.6}
 @media(max-width:359px){.chip-name{font-size:8px}}
+
+/* v18 · readability first: remove scanlines, pseudo-grain and crushed contrast. */
+:root{--pixel:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-family:var(--pixel);font-size:14px}
+html,body,button,input,select,textarea{font-family:var(--pixel)!important}
+body::before{background:linear-gradient(180deg,#0002,transparent 40%,#0006);opacity:1}
+.corridor-backdrop{opacity:.52;filter:none}
+.corridor-backdrop canvas{image-rendering:auto!important}
+.corridor-backdrop::after{background:linear-gradient(180deg,#0003,#0009 70%,#000c)}
+.shell{background:linear-gradient(180deg,#04070793,#0306069d 350px,#030606bd 700px)}
+.vault-brand img,.artifact-stamp img,.artifact-photo,.rune-wrap img,.pixel-board{image-rendering:auto!important}
+.vault-brand img,.artifact-photo,.pixel-board,.rune-wrap img{filter:none!important}
+.artifact::after{display:none}
+.board-stage::after{display:none}
+.board-stage{border-color:#7f8d83;background:#0b1315;padding:10px 7px 12px;box-shadow:0 9px 20px #0009}
+.pixel-board{display:block;width:min(100%,480px);height:auto;max-width:480px;margin:0 auto;cursor:crosshair}
+.status,.board-caption{font-family:var(--pixel);font-weight:550;line-height:1.5}
+.status{font-size:clamp(12px,3vw,15px);color:#f7edda;padding:10px 12px}
+.board-caption{font-size:11px;color:#e5e2d5}
+.home-screen .game-name,.game-name,.play-heading h1,.final-summary h1,.privacy h1,.modal h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:0;text-shadow:0 2px 4px #000}
+.home-screen .game-name{font-size:clamp(30px,8vw,44px)}
+.vault-back,.ribbon,.play-heading .meta,.setting-label,.setting-label output,.setting-note,.chip-name,.section-title,.pixel-button,.choice,.ship-entry,.tool-button,.back-link,.action-bar,.sunk-notice,.board-caption{font-family:var(--pixel);letter-spacing:0}
+.setting-label{font-size:13px}.setting-label output{font-size:14px}
+.setting-note,.pixel-button span small,.modal p,.help-content{font-size:12px;line-height:1.5}
+.pixel-button,.pixel-button.primary,.pixel-button.tertiary,.choice,.ship-entry{font-size:12px;font-weight:650}
+.play-heading .meta{font-size:11px;line-height:1.5}
+.chip-name{font-size:10px;font-weight:700}
+.ship-entry{font-size:12px;line-height:1.45;overflow-wrap:anywhere;min-width:0}
+.ship-entry small{font-family:var(--pixel);font-size:11px}
+.ship-picker{gap:9px}
+@media(max-width:359px){.ship-entry{font-size:11px}.chip-name{font-size:9px}.board-stage{padding:6px 3px 8px}}

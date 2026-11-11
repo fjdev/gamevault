@@ -107,9 +107,12 @@ def create_master_texture(slots):
         d.line(((11*s,(y+13)*s),(271*s,(y+13)*s)),fill=(239,190,133,65),width=1)
         for j,x in enumerate([68,106,144,182] if slots==4 else [49,84,119,154,189]):
             bevel_cavity(im,x-20,y,11.0,'brown',j+row)
-        for j in range(slots):
-            x=240+(j%3)*16-20;y2=y-5+(j//3)*10
-            bevel_cavity(im,x,y2,3.8,'brown',j+row)
+        # Five keys use 3 upper / 2 lower with staggered lower sockets.
+        # Each embossed lip has clearance from every neighbouring lip.
+        top=([247,270] if slots==4 else [237,258,279])
+        bottom=([247,270] if slots==4 else [247.5,268.5])
+        for j,(x,y2) in enumerate([(x,y-7) for x in top]+[(x,y+7) for x in bottom]):
+            bevel_cavity(im,x-20,y2,3.65,'brown',j+row)
         d.text((16*s,(y-4)*s),str(row+1),font=font(7*s),fill=(66,40,26,190))
     # lettering and injection seams near lip
     d.text((107*s,3*s),'CODE',font=font(7*s),fill=(53,31,25,170),anchor='mt')
@@ -231,12 +234,12 @@ def photo_grade(im,kind):
     """Gentle analog optical imperfections applied to hi-res source, NEVER baked gameplay pixels."""
     a=np.array(im.convert('RGB'),dtype=np.float32);h,w=a.shape[:2]
     yy,xx=np.mgrid[:h,:w].astype(np.float32);nx=xx/w;ny=yy/h
-    shade=1.10-.17*nx-.10*ny-.22*np.clip(((nx-.50)**2+(ny-.42)**2)*1.55,0,1)
+    # v18: remove lens vignette and film noise from small interactive parts.
+    # Lift the dark midtones without overexposing the physical highlights.
+    shade=1.06-.055*nx-.035*ny
+    a=np.power(np.clip(a/255.0,0,1),.78)*255.0
     a*=shade[:,:,None]
-    np.random.seed(222)
-    a+=np.random.default_rng(422).normal(0,1.8,(h,w,1))
-    # very slight teal shadows/warm overhead specular
-    a[:,:,0]*=1.016;a[:,:,2]*=.971
+    a[:,:,0]*=1.010;a[:,:,2]*=.992
     return Image.fromarray(np.uint8(np.clip(a,0,255)),'RGB')
 
 def save_bg(image,name,kind):

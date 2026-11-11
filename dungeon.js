@@ -67,7 +67,7 @@ void main(){
    vec2 projected=vec2(ray.x*distance,${EYE.toFixed(2)}+ray.y*distance);
    vec2 uv=vec2(projected.x/4.72+.5,.183+projected.y*.128);
    if(uv.x>=0.&&uv.x<=1.&&uv.y>=0.&&uv.y<=1.){
-    // Atlas: four lighting variations across, three architectures down.
+    // Atlas: four lighting variations across; all portal variants are unobstructed stone arches.
     float atlasColumn=uLights[i]<.5?1.:(uLights[i]<1.5?0.:uLights[i]);
     float atlasRow=uKinds[i];
     vec2 safeUV=clamp(uv,vec2(.003),vec2(.997));
@@ -76,7 +76,8 @@ void main(){
     float arrive=smoothstep(4.1,7.0,distance);
     float shade=.85/(1.+max(0.,distance-9.)*.027);
     vec3 painted=arch.rgb*shade;
-    // Near the portal is uncut; it gradually disappears as the camera crosses.
+    // No transom rails or hanging posts: all portal clearances stay open.
+   // Near the portal is uncut; it gradually disappears as the camera crosses.
     stone=mix(stone,painted,arch.a*arrive);
    }
   }
@@ -86,9 +87,7 @@ void main(){
  float fog=smoothstep(15.,32.,depth);
  stone=mix(stone,vec3(.004,.006,.007),fog);
  if(depth>=36.)stone=vec3(.004,.006,.007);
- // Restrained atmospheric grain, matching the menu's photographed/pixel-treated look.
- float noise=fract(sin(dot(floor(gl_FragCoord.xy),vec2(12.9898,78.233)))*43758.5453);
- stone*=.968+.065*noise;
+ // No procedural film grain: it obscures stone detail and causes shimmer.
  gl_FragColor=vec4(stone,1.);
 }`;
 function imageAt(url){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error(`Art failed: ${url}`));img.src=url;});}
@@ -103,7 +102,7 @@ function assets(){if(!loaded)loaded=Promise.all([
 ]);return loaded;}
 function shader(gl,type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
 function webGL(canvas,images){
- const gl=canvas.getContext('webgl',{alpha:false,antialias:false,depth:false,preserveDrawingBuffer:true,powerPreference:'low-power'});
+ const gl=canvas.getContext('webgl',{alpha:false,antialias:true,depth:false,preserveDrawingBuffer:false,powerPreference:'default'});
  if(!gl)return null;
  const p=gl.createProgram();gl.attachShader(p,shader(gl,gl.VERTEX_SHADER,VERT));gl.attachShader(p,shader(gl,gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(p);
  if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));gl.useProgram(p);
@@ -126,7 +125,9 @@ function webGL(canvas,images){
  }
  tex(images[0],0,'uWall');tex(images[1],1,'uFloor');tex(images[2],2,'uRoof');tex(images[3],3,'uArches',false);
  const uc=gl.getUniformLocation(p,'uCamera'),ut=gl.getUniformLocation(p,'uTime'),us=gl.getUniformLocation(p,'uStations[0]'),uk=gl.getUniformLocation(p,'uKinds[0]'),ul=gl.getUniformLocation(p,'uLights[0]');
- gl.uniform2f(gl.getUniformLocation(p,'uResolution'),W,H);gl.viewport(0,0,W,H);
+ const res=gl.getUniformLocation(p,'uResolution');
+ const resize=()=>{gl.viewport(0,0,canvas.width,canvas.height);gl.uniform2f(res,canvas.width,canvas.height)};
+ resize();
  const paint=(camera,elapsed)=>{
   const z=new Float32Array(12),types=new Float32Array(12),lighting=new Float32Array(12);z.fill(1e5);
   const start=Math.max(0,Math.floor(Math.max(0,camera-13.4)/CYCLE)*SPACING.length-1);let j=0;
@@ -136,6 +137,7 @@ function webGL(canvas,images){
   gl.uniform1f(uc,camera);gl.uniform1f(ut,elapsed);gl.uniform1fv(us,z);gl.uniform1fv(uk,types);gl.uniform1fv(ul,lighting);
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
  };
+ paint.resize=resize;
  paint.dispose=()=>{textures.forEach(t=>gl.deleteTexture(t));gl.deleteBuffer(vertices);gl.deleteProgram(p)};
  return paint;
 }
@@ -149,15 +151,26 @@ export function startDungeon(canvas,{reducedMotion=false,initialTime=0}={}){
  canvas.width=W;canvas.height=H;
  const base=canvas.getContext('2d',{alpha:false});const surface=makeLayer(canvas,'dungeon-surface');
  let elapsed=initialTime,previous=null,raf=0,stopped=false,ready=false,render=null,fallback=null;
+ const updateResolution=()=>{
+  // Match real display pixels instead of stretching a 360 × 600 image to 600px.
+  // A bounded device scale preserves frame rate in long corridors on phones.
+  const box=surface.getBoundingClientRect();
+  const scale=Math.min(2,Math.max(1,window.devicePixelRatio||1));
+  const w=Math.min(1200,Math.max(W,Math.round(box.width*scale)));
+  const h=Math.min(1800,Math.max(H,Math.round(box.height*scale)));
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
+  if(surface.width!==w||surface.height!==h){surface.width=w;surface.height=h;render?.resize?.()}
+ };
+ updateResolution();
  const paint=()=>{
   if(stopped||!ready)return;
   if(render)render(cameraDistance(elapsed),elapsed);
-  else if(fallback&&base)base.drawImage(fallback,0,0,W,H);
+  else if(fallback&&base)base.drawImage(fallback,0,0,canvas.width,canvas.height);
  };
  surface.addEventListener('webglcontextlost',event=>{event.preventDefault();render=null;surface.style.display='none';if(ready)paint()});
  assets().then(data=>{
   if(stopped)return;fallback=data[4];
-  try{render=webGL(surface,data)}catch(error){console.warn('WebGL corridor unavailable; using illustration.',error);render=null}
+  try{updateResolution();render=webGL(surface,data)}catch(error){console.warn('WebGL corridor unavailable; using illustration.',error);render=null}
   surface.style.display=render?'block':'none';ready=true;paint();
  }).catch(error=>console.error('Dungeon assets failed:',error));
  const tick=now=>{
@@ -165,6 +178,8 @@ export function startDungeon(canvas,{reducedMotion=false,initialTime=0}={}){
   previous=now;if(ready&&!document.hidden)paint();if(!reducedMotion)raf=requestAnimationFrame(tick);
  };
  raf=requestAnimationFrame(tick);
- const stop=()=>{stopped=true;cancelAnimationFrame(raf);render?.dispose?.();surface.remove()};
+ const onResize=()=>{if(!stopped){updateResolution();paint()}};
+ window.addEventListener('resize',onResize,{passive:true});
+ const stop=()=>{stopped=true;window.removeEventListener('resize',onResize);cancelAnimationFrame(raf);render?.dispose?.();surface.remove()};
  Object.defineProperty(stop,'time',{get:()=>elapsed});return stop;
 }

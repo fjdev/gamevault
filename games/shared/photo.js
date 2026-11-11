@@ -2,6 +2,7 @@
    Raster photographs are original 3D PBR studio renders. Moving components are
    physically rendered alpha plates, composited BEFORE analog pixel treatment.
    The hit-test coordinate system intentionally remains the original 320px grid. */
+import {masterClueCenters,masterSlotCenters,masterRowY} from './layout.js';
 const BASE=new URL('../../assets/art/v15/',import.meta.url).href;
 const IMAGE_CACHE=new Map();
 function photo(name){
@@ -20,8 +21,8 @@ function overlay(c,x,y,color='#d7ae64'){
   c.beginPath();c.moveTo(x-13,y-13);c.lineTo(x-8,y-13);c.moveTo(x+8,y-13);c.lineTo(x+13,y-13);
   c.moveTo(x-13,y+13);c.lineTo(x-8,y+13);c.moveTo(x+8,y+13);c.lineTo(x+13,y+13);c.stroke();c.restore();
 }
-const MASTER_X=slots=>slots===4?[68,106,144,182]:[49,84,119,154,189];
-const MASTER_Y=n=>58+n*28;
+const MASTER_X=masterSlotCenters;
+const MASTER_Y=masterRowY;
 function peg(c,x,y,color,clue=false){const s=clue?11:30;image(c,`peg-${color}.png`,x-s/2,y-s/2,s,s)}
 export function drawMasterPhoto(canvas,{settings,secret,history=[],draft=[],selected=0,phase='breaker',pending=null},finish){
   const {slots,maxAttempts}=settings,H=96+maxAttempts*28;
@@ -37,7 +38,7 @@ export function drawMasterPhoto(canvas,{settings,secret,history=[],draft=[],sele
       if(active&&selected===j&&phase!=='keeper')overlay(c,x,y,'#e9cf8c');
     }
     if(entry)for(let j=0;j<entry.black+entry.white;j++){
-      const x=240+(j%3)*16,py=y-5+Math.floor(j/3)*10;
+      const {x, y:py}=masterClueCenters(slots,y)[j];
       peg(c,x,py,j<entry.black?'black':'white',true);
     }
   }
@@ -59,12 +60,16 @@ export function drawOthelloPhoto(canvas,{board,selected,legal=[]},finish){
   finish(canvas,'othello');return true;
 }
 function ship(c,x,y,size,cell,vertical,ghost=false){
-  const im=photo(`ship-${size}.png`);if(!im)return;
-  const w=size*cell+6*cell/25,h=26*cell/25;
-  c.save();if(ghost)c.globalAlpha=.60;
-  if(vertical){c.translate(x+cell/2,y+size*cell/2);c.rotate(Math.PI/2);c.drawImage(im,-w/2,-h/2,w,h)}
-  else c.drawImage(im,x-4*cell/25,y+cell/2-h/2,w,h);
-  c.restore();
+ const im=photo(`ship-${size}.png`);if(!im)return;
+ // The sprite used to extend 4px outside the grid. Fit it completely into
+ // its occupied cells, with clearance for adjacent vessels and hit markers.
+ const w=size*cell-2.4,h=cell*.76;
+ c.save();if(ghost)c.globalAlpha=.56;
+ if(vertical){
+  c.translate(x+cell/2,y+size*cell/2);c.rotate(Math.PI/2);
+  c.drawImage(im,-w/2,-h/2,w,h);
+ }else c.drawImage(im,x+1.2,y+(cell-h)/2,w,h);
+ c.restore();
 }
 function shots(c,grid,state){if(!state)return;for(let i=0;i<100;i++){
   if(!state[i])continue;const x=grid.x+(i%10)*grid.cell+grid.cell/2,y=grid.y+Math.floor(i/10)*grid.cell+grid.cell/2;
@@ -81,17 +86,13 @@ function drawSunk(c,g,ship){
  const first=ship.cells[0],vertical=ship.cells.length>1&&ship.cells[1]-first===10;
  const x=g.x+(first%10)*g.cell,y=g.y+Math.floor(first/10)*g.cell;
  const w=(vertical?1:ship.size)*g.cell,h=(vertical?ship.size:1)*g.cell;
- c.save();
- c.shadowColor='#dc271e';c.shadowBlur=3;
- c.strokeStyle='#fa6659';c.lineWidth=2.3;c.setLineDash([5,2]);
- c.strokeRect(x+1.6,y+1.6,w-3.2,h-3.2);
- c.setLineDash([]);
- c.beginPath();c.moveTo(x+3,y+3);c.lineTo(x+w-3,y+h-3);c.moveTo(x+w-3,y+3);c.lineTo(x+3,y+h-3);
- c.strokeStyle='#ff786a';c.lineWidth=1.5;c.stroke();
- const cx=x+w/2,cy=y+h/2;
- c.shadowBlur=0;c.fillStyle='#200609ee';c.fillRect(cx-23,cy-9,46,18);
- c.strokeStyle='#ffa08b';c.lineWidth=.9;c.strokeRect(cx-23,cy-9,46,18);
- c.font='bold 9px monospace';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#ffb4a7';c.fillText('SUNK',cx,cy+.5);
+ // Outline-only sunk state: the hit pegs remain fully visible, and the red
+ // outline cannot cover a neighbouring grid cell on either board.
+ c.save();c.strokeStyle='#ff917b';c.lineWidth=1.65;
+ c.strokeRect(x+1.5,y+1.5,w-3,h-3);
+ for(const [xx,yy] of [[x+3,y+3],[x+w-3,y+3],[x+3,y+h-3],[x+w-3,y+h-3]]){
+  c.beginPath();c.arc(xx,yy,1.45,0,Math.PI*2);c.fillStyle='#ffe1bc';c.fill();
+ }
  c.restore();
 }
 function paintGrid(c,g,ships,marks,selected,showShips=false,proposal=null,sunk=[]){

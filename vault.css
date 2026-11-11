@@ -49,3 +49,12 @@
 /* v17 · analog ambience, not double-upscaled pixels. Keep intentional low-res
    type/wordmark, but let the corridor be texture-filtered. */
 #dungeon,.dungeon-surface{image-rendering:auto}
+
+/* v18 — clear display: no forced block scaling, tint, or stepping. */
+#dungeon,.dungeon-surface,.wordmark img{image-rendering:auto!important}
+.wordmark,.vault[data-screen="menu"] .wordmark{animation:none!important;filter:none}
+.screen-shade{background:linear-gradient(180deg,#0006,transparent 42%,transparent 76%,#0008)}
+.game-menu{background:#080c0ce8}
+.game-menu a{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(15px,3.4vw,20px);letter-spacing:.02em;line-height:1.3;min-height:37px;font-weight:650}
+.game-menu h2,.game-menu .back,.press-start,.footer{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.03em}
+@media(max-height:600px){.game-menu a{min-height:29px;font-size:14px}}

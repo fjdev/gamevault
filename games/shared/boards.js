@@ -1,8 +1,9 @@
 import {drawMasterPhoto,drawOthelloPhoto,drawBattlePhoto} from './photo.js';
+import {masterSlotCenters,masterRowY,masterClueCenters} from './layout.js';
 /* Game Vault — tactile boards. Game rules and the tap-to-cell contract are unchanged.
    Physical materials are painted first; the retro-fantasy palette is a restrained trim. */
-export const MASTER_X=slots=>slots===4?[68,106,144,182]:[49,84,119,154,189];
-export const M_ROW_Y=n=>58+n*28;
+export const MASTER_X=masterSlotCenters;
+export const M_ROW_Y=masterRowY;
 export const OTHELLO_GRID={x:24,y:30,cell:34,n:8};
 export const BATTLE_PLACE={x:35,y:63,cell:25,n:10};
 export const BATTLE_TARGET={x:35,y:59,cell:25,n:10};
@@ -136,19 +137,8 @@ function vintageHole(c,x,y,r){
  c.beginPath();c.arc(x,y,r-1,0,2*Math.PI);c.fillStyle=radial(c,x,y,r-1,[[0,'#1b1210'],[.68,'#342019'],[1,'#5f3b2a']]);c.fill();
 }
 function studioFinish(canvas,kind){
- // Material-first finish. Do not throw away 40% of the board's pixels and then
- // enlarge with nearest-neighbour: it destroys small clue pegs and shot marks.
- // Filmic falloff is limited to the periphery, away from the playable sockets.
- if(typeof document==='undefined')return;
- const w=canvas.width,h=canvas.height,c=canvas.getContext('2d');
- c.save();c.setTransform(1,0,0,1,0,0);
- const glow=c.createRadialGradient(w*.16,h*.10,0,w*.22,h*.19,Math.max(w,h)*.83);
- glow.addColorStop(0,'rgba(224,152,98,.045)');glow.addColorStop(1,'rgba(224,152,98,0)');
- c.fillStyle=glow;c.fillRect(0,0,w,h);
- const vignette=c.createRadialGradient(w*.49,h*.46,Math.min(w,h)*.45,w*.50,h*.48,Math.max(w,h)*.85);
- vignette.addColorStop(0,'rgba(0,0,0,0)');vignette.addColorStop(.78,'rgba(0,0,0,.015)');vignette.addColorStop(1,'rgba(0,0,0,.13)');
- c.fillStyle=vignette;c.fillRect(0,0,w,h);
- c.restore();
+ // No analog grain, vignetting, darkening, or resolution downgrade on the
+ // finished board: preserve the exact photo/sprite pixels for interaction.
 }
 export function drawMastermind(canvas,{settings,secret,history=[],draft=[],selected=0,phase='breaker',pending=null}){
  const {slots,maxAttempts}=settings,H=96+maxAttempts*28;cSize(canvas,320,H);
@@ -177,8 +167,7 @@ export function drawMastermind(canvas,{settings,secret,history=[],draft=[],selec
     line(c,x-12,y-13,x+12,y-13,'#fff1bf',1.5);line(c,x-12,y+13,x+12,y+13,'#fff1bf',1.5);
    }
   }
-  for(let j=0;j<slots;j++){
-   const xx=240+(j%3)*16,yy=y-5+Math.floor(j/3)*10;
+  for(const [j,{x:xx,y:yy}] of masterClueCenters(slots,y).entries()){ 
    vintageHole(c,xx,yy,4.7);
    if(entry&&j<entry.black+entry.white){
     const col=j<entry.black?'black':'white';plasticPeg(c,xx,yy,3.4,col);
@@ -193,7 +182,7 @@ export function mastermindHit(x,y,game){const cy=M_ROW_Y(game.history.length);if
 // Logical coordinates remain 320px wide across all modes and hit tests.
 // In browsers draw at 2x native resolution; server-side test canvases stay 1x.
 function cSize(canvas,w,h){
- const scale=typeof HTMLCanvasElement!=='undefined'&&canvas instanceof HTMLCanvasElement?2:1;
+ const scale=typeof HTMLCanvasElement!=='undefined'&&canvas instanceof HTMLCanvasElement?Math.max(2,Math.min(3,window.devicePixelRatio||2)):1;
  if(canvas.width!==w*scale)canvas.width=w*scale;
  if(canvas.height!==h*scale)canvas.height=h*scale;
  canvas.getContext('2d').setTransform(scale,0,0,scale,0,0);
@@ -217,7 +206,7 @@ export function drawOthello(canvas,{board,turn,selected,legal=[]}){
  material(c,23,27,274,274,'felt',.57,1);
  ambientSurface(c,23,27,274,274);
  rubbedEdges(c,23,27,274,274,12);
- weathered(c,23,27,274,274,53,1600,.72);
+ // Avoid stochastic noise over the game grid.
  // Slightly imperfect, recessed black printed grid.
  for(let k=0;k<=8;k++){
   const x=24+k*34,y=30+k*34;
@@ -251,7 +240,7 @@ function chart(c,g){
  material(c,x,y,w,w,'sea',.52,1);
  ambientSurface(c,x,y,w,w);
  rubbedEdges(c,x,y,w,w,31);
- weathered(c,x,y,w,w,91,1200,.8);
+ // Keep shot coordinates sharply separated; no texture speckle pass.
  c.save();path(c,x,y,w,w,1);c.clip();
  for(let row=0;row<10;row++)for(let col=0;col<10;col++){
   const xx=x+col*cell,yy=y+row*cell;
@@ -296,10 +285,15 @@ function wreckStamp(c,g,ship){
  const first=ship.cells[0],vertical=ship.cells.length>1&&ship.cells[1]-first===10;
  const x=g.x+(first%10)*g.cell,y=g.y+Math.floor(first/10)*g.cell;
  const w=(vertical?1:ship.size)*g.cell,h=(vertical?ship.size:1)*g.cell;
- c.save();c.strokeStyle='#f97564';c.lineWidth=2;c.setLineDash([4,2]);c.strokeRect(x+1.5,y+1.5,w-3,h-3);c.setLineDash([]);
- c.beginPath();c.moveTo(x+3,y+3);c.lineTo(x+w-3,y+h-3);c.moveTo(x+w-3,y+3);c.lineTo(x+3,y+h-3);c.stroke();
- const cx=x+w/2,cy=y+h/2;c.fillStyle='#240b0bef';c.fillRect(cx-22,cy-9,44,18);
- c.fillStyle='#ffb8a8';c.font='bold 9px monospace';c.textAlign='center';c.textBaseline='middle';c.fillText('SUNK',cx,cy);c.restore();
+ // A perimeter only: large Xs and labels would hide red hit pegs and even
+ // protrude into neighbouring ships on the smaller fleet grid.
+ c.save();c.strokeStyle='#ff8c72';c.lineWidth=1.75;
+ c.strokeRect(x+1.5,y+1.5,w-3,h-3);
+ c.fillStyle='#ffd1ac';
+ for(const [xx,yy] of [[x+3,y+3],[x+w-3,y+3],[x+3,y+h-3],[x+w-3,y+h-3]]){
+  c.beginPath();c.arc(xx,yy,1.5,0,Math.PI*2);c.fill();
+ }
+ c.restore();
 }
 function waters(c,g,ships=[],shots=[],selected=null,showShips=false,proposal=null,sunk=[]){
  chart(c,g);

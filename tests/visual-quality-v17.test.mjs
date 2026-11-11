@@ -15,7 +15,7 @@ test('Hi-density canvas maps CSS pointer positions to the original logical grid'
 test('Boards no longer use destructive 60% reduction or nearest neighbour upscale',()=>{
  const boards=src('../games/shared/boards.js'),style=src('../games/shared/ui.css');
  assert.doesNotMatch(boards,/work\.width=Math\.round\(w\*\.60\)/);
- assert.match(boards,/canvas instanceof HTMLCanvasElement\?2:1/);
+ assert.match(boards,/canvas instanceof HTMLCanvasElement\?Math\.max\(2,Math\.min\(3,window\.devicePixelRatio\|\|2\)\):1/);
  assert.match(style,/\.pixel-board[^\n]*image-rendering:auto!important/);
 });
 test('Animated corridor uses mipmaps against false moire bands',()=>{
