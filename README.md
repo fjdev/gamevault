@@ -1,3 +1,9 @@
+# GAME VAULT · v17 | Sharper gameplay, corrected corridor texture filtering
+
+This release addresses the visual legibility issues identified in v16. Read `VISUAL_CHANGES_V17.md` for the precise technical changes and limitations. Three concept-driven menu still lifes are included, while the dynamic gameplay boards retain the registered v15 assets and 320px logical hit coordinates. The corridor remains animated and uses mipmapping to reduce perspective texture aliasing.
+
+---
+
 # GAME VAULT · v16 | Unified Vault menus, Mastermind palette, persistent end boards
 
 Version 16 extends the original v15 physical board visuals without replacing the approved materials or geometry. It preserves the same save keys and rules.

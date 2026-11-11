@@ -45,3 +45,7 @@
 .screen-shade{z-index:0;opacity:.84}
 /* v13: consistent atmosphere behind the interactive menu, not above the labels. */
 .screen-shade{z-index:-1;opacity:.86;background:linear-gradient(#0005,transparent 26%,transparent 60%,#000a)}
+
+/* v17 · analog ambience, not double-upscaled pixels. Keep intentional low-res
+   type/wordmark, but let the corridor be texture-filtered. */
+#dungeon,.dungeon-surface{image-rendering:auto}

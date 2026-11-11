@@ -136,37 +136,19 @@ function vintageHole(c,x,y,r){
  c.beginPath();c.arc(x,y,r-1,0,2*Math.PI);c.fillStyle=radial(c,x,y,r-1,[[0,'#1b1210'],[.68,'#342019'],[1,'#5f3b2a']]);c.fill();
 }
 function studioFinish(canvas,kind){
- // Photograph-like materials are shaded first; a shared low-res sensor treatment
- // then uses ordered dithering and gentle chroma compression. Hitboxes stay intact.
+ // Material-first finish. Do not throw away 40% of the board's pixels and then
+ // enlarge with nearest-neighbour: it destroys small clue pegs and shot marks.
+ // Filmic falloff is limited to the periphery, away from the playable sockets.
+ if(typeof document==='undefined')return;
  const w=canvas.width,h=canvas.height,c=canvas.getContext('2d');
- if(typeof document==='undefined')return; // Node test renderer: preserve exact geometry.
- const work=document.createElement('canvas');work.width=Math.round(w*.60);work.height=Math.round(h*.60);
- const k=work.getContext('2d',{willReadFrequently:true});k.imageSmoothingEnabled=true;k.drawImage(canvas,0,0,work.width,work.height);
- try{
-  const im=k.getImageData(0,0,work.width,work.height),data=im.data;
-  const bayer=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
-  for(let y=0;y<work.height;y++)for(let x=0;x<work.width;x++){
-   const idx=(y*work.width+x)*4;
-   const d=(bayer[(y%4)*4+(x%4)]-7.5)*.83;
-   const grain=(hash(x,y,37)-.5)*10;
-   const avg=(data[idx]+data[idx+1]+data[idx+2])/3;
-   for(let j=0;j<3;j++){
-    const val=Math.max(0,Math.min(255,avg*.075+data[idx+j]*.925+grain+d));
-    data[idx+j]=Math.max(0,Math.min(255,Math.round(val/11)*11));
-   }
-  }
-  k.putImageData(im,0,0);
- }catch(_){} // Canvases still render if the browser forbids reads.
- c.clearRect(0,0,w,h);c.imageSmoothingEnabled=false;c.drawImage(work,0,0,w,h);
- // Warm raking light from the left and an underexposed photographic edge falloff.
- c.save();c.globalCompositeOperation='screen';
- const glow=c.createRadialGradient(w*.14,h*.12,0,w*.14,h*.12,Math.max(w,h)*.65);
- glow.addColorStop(0,'rgba(199,138,82,.09)');glow.addColorStop(1,'rgba(202,119,61,0)');
+ c.save();c.setTransform(1,0,0,1,0,0);
+ const glow=c.createRadialGradient(w*.16,h*.10,0,w*.22,h*.19,Math.max(w,h)*.83);
+ glow.addColorStop(0,'rgba(224,152,98,.045)');glow.addColorStop(1,'rgba(224,152,98,0)');
  c.fillStyle=glow;c.fillRect(0,0,w,h);
- c.globalCompositeOperation='source-over';
- const vignette=c.createRadialGradient(w*.48,h*.41,Math.min(w,h)*.15,w*.49,h*.48,Math.max(w,h)*.80);
- vignette.addColorStop(0,'rgba(0,0,0,0)');vignette.addColorStop(.65,'rgba(0,0,0,.02)');vignette.addColorStop(1,'rgba(0,0,0,.37)');
- c.fillStyle=vignette;c.fillRect(0,0,w,h);c.restore();
+ const vignette=c.createRadialGradient(w*.49,h*.46,Math.min(w,h)*.45,w*.50,h*.48,Math.max(w,h)*.85);
+ vignette.addColorStop(0,'rgba(0,0,0,0)');vignette.addColorStop(.78,'rgba(0,0,0,.015)');vignette.addColorStop(1,'rgba(0,0,0,.13)');
+ c.fillStyle=vignette;c.fillRect(0,0,w,h);
+ c.restore();
 }
 export function drawMastermind(canvas,{settings,secret,history=[],draft=[],selected=0,phase='breaker',pending=null}){
  const {slots,maxAttempts}=settings,H=96+maxAttempts*28;cSize(canvas,320,H);
@@ -208,7 +190,14 @@ export function drawMastermind(canvas,{settings,secret,history=[],draft=[],selec
  return{height:H,grid:{rowY:M_ROW_Y,slotX:MASTER_X(slots),active:history.length}};
 }
 export function mastermindHit(x,y,game){const cy=M_ROW_Y(game.history.length);if(Math.abs(y-cy)>15)return null;for(let j=0;j<game.settings.slots;j++)if(Math.abs(x-MASTER_X(game.settings.slots)[j])<16)return j;return null}
-function cSize(canvas,w,h){if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h}
+// Logical coordinates remain 320px wide across all modes and hit tests.
+// In browsers draw at 2x native resolution; server-side test canvases stay 1x.
+function cSize(canvas,w,h){
+ const scale=typeof HTMLCanvasElement!=='undefined'&&canvas instanceof HTMLCanvasElement?2:1;
+ if(canvas.width!==w*scale)canvas.width=w*scale;
+ if(canvas.height!==h*scale)canvas.height=h*scale;
+ canvas.getContext('2d').setTransform(scale,0,0,scale,0,0);
+}
 function othelloDisc(c,x,y,color){
  const ivory=color===-1;const light=ivory?'#fffefd':'#a8b7b9',mid=ivory?'#dedcce':'#252a2b',dark=ivory?'#aaa89f':'#06090a';
  c.save();c.shadowColor='#000b';c.shadowOffsetY=2.4;c.shadowBlur=3;
@@ -346,4 +335,10 @@ export function drawBattleship(canvas,{phase,ownShips=[],ownSea=[],ownShots=[],t
  studioFinish(canvas,'battleship');return{grid:placing?BATTLE_PLACE:BATTLE_TARGET};
 }
 export function battleHit(x,y,g){const col=Math.floor((x-g.x)/g.cell),row=Math.floor((y-g.y)/g.cell);return col>=0&&col<10&&row>=0&&row<10?row*10+col:null}
-export function pointerPos(event,canvas){const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height}}
+export function pointerPos(event,canvas){
+ const box=canvas.getBoundingClientRect();
+ // Translate DOM CSS pixels back to the stable, logical 320px play surface.
+ // Never derive click regions from the high-density backing-store size.
+ return{x:(event.clientX-box.left)*320/box.width,
+         y:(event.clientY-box.top)*(canvas.height*320/canvas.width)/box.height};
+}

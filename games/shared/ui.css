@@ -159,3 +159,19 @@ body::before{background:linear-gradient(90deg,#000b,transparent 25%,transparent 
 body[data-game='mastermind'],body[data-game='othello'],body[data-game='battleship']{--gold:#dacfaa}
 @media(max-width:359px){.shell{padding-left:8px;padding-right:8px}.color-palette{gap:4px}.chip-name{font-size:6.3px}.color-btn{height:55px}.color-chip{width:22px;height:22px}.home-screen .game-name{font-size:25px}.menu-panel{padding:10px}}
 @media(prefers-reduced-motion:reduce){.corridor-backdrop canvas{animation:none}}
+
+/* v17 · the games are tactile photographed objects, not giant pixel sprites.
+   Only typographic/navigation motifs should intentionally look pixel-art. */
+.pixel-board,.artifact-photo,.artifact img,.rune-wrap img{image-rendering:auto!important}
+.pixel-board{filter:drop-shadow(0 8px 10px #000c);cursor:pointer}
+.artifact-photo{filter:contrast(1.025) saturate(.97)}
+.board-stage{padding:10px 8px 12px;background:
+ radial-gradient(ellipse at 8% 8%,#b86a302b,transparent 52%),
+ radial-gradient(ellipse at 96% 90%,#3a58702e,transparent 54%),
+ linear-gradient(#080c0bbf,#030707ed),
+ url('../../assets/art/floor-flagstone.png');background-size:auto,auto,auto,256px}
+.status{font-size:clamp(11px,2.8vw,13px);line-height:1.5;color:#f4e7c9}
+.board-caption{font-size:10px;color:#ded6bc}
+.chip-name{font-family:system-ui,-apple-system,sans-serif;font-weight:700;font-size:9px;letter-spacing:0;line-height:1.1;color:#f5eddb}
+.setting-note,.pixel-button span small,.modal p,.help-content{line-height:1.6}
+@media(max-width:359px){.chip-name{font-size:8px}}

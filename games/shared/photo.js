@@ -22,7 +22,7 @@ function overlay(c,x,y,color='#d7ae64'){
 }
 const MASTER_X=slots=>slots===4?[68,106,144,182]:[49,84,119,154,189];
 const MASTER_Y=n=>58+n*28;
-function peg(c,x,y,color,clue=false){const s=clue?18:30;image(c,`peg-${color}.png`,x-s/2,y-s/2,s,s)}
+function peg(c,x,y,color,clue=false){const s=clue?11:30;image(c,`peg-${color}.png`,x-s/2,y-s/2,s,s)}
 export function drawMasterPhoto(canvas,{settings,secret,history=[],draft=[],selected=0,phase='breaker',pending=null},finish){
   const {slots,maxAttempts}=settings,H=96+maxAttempts*28;
   const bg=photo(`mastermind-${slots}-${maxAttempts}.webp`);if(!bg)return false;
@@ -49,7 +49,7 @@ export function drawOthelloPhoto(canvas,{board,selected,legal=[]},finish){
   c.imageSmoothingEnabled=true;c.drawImage(bg,0,0,320,334);
   for(let i=0;i<64;i++){
     const row=Math.floor(i/8),col=i%8,x=24+col*34+17,y=30+row*34+17;
-    if(board[i])image(c,board[i]===-1?'disc-white.png':'disc-black.png',x-20,y-20,40,40);
+    if(board[i])image(c,board[i]===-1?'disc-white.png':'disc-black.png',x-16,y-16,32,32);
     else if(legal.includes(i)){c.beginPath();c.arc(x,y,3,0,Math.PI*2);c.fillStyle='#d5bd8b9a';c.fill()}
   }
   if(selected!==null&&legal.includes(selected)){
@@ -60,7 +60,7 @@ export function drawOthelloPhoto(canvas,{board,selected,legal=[]},finish){
 }
 function ship(c,x,y,size,cell,vertical,ghost=false){
   const im=photo(`ship-${size}.png`);if(!im)return;
-  const w=size*cell+8*cell/25,h=34*cell/25;
+  const w=size*cell+6*cell/25,h=26*cell/25;
   c.save();if(ghost)c.globalAlpha=.60;
   if(vertical){c.translate(x+cell/2,y+size*cell/2);c.rotate(Math.PI/2);c.drawImage(im,-w/2,-h/2,w,h)}
   else c.drawImage(im,x-4*cell/25,y+cell/2-h/2,w,h);

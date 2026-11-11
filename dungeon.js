@@ -5,7 +5,7 @@ export const LOOP_SECONDS=35.8, SPEED=1.37, FPS=60, FRAMES=0;
 export const mod=(n,p)=>((n%p)+p)%p;
 export const cameraDistance=seconds=>Math.max(0,seconds)*SPEED;
 export const corridorPoint=(x,y,width,height,seconds)=>({frame:cameraDistance(seconds),x,y,width,height});
-const W=240,H=400,EYE=1.72,WALL=2.28,ROOF=5.25,HALF_FOV=.77;
+const W=360,H=600,EYE=1.72,WALL=2.28,ROOF=5.25,HALF_FOV=.77;
 const SPACING=[11.4,13.6,10.8,14.2,12.3,9.9,13.1,11.7];
 const LIGHT=[1,0,2,0,3,0,1,0]; // LEFT - darkness - RIGHT - darkness - BOTH - darkness
 const ARCH=[0,1,2,0,2,1,1,2];
@@ -70,7 +70,8 @@ void main(){
     // Atlas: four lighting variations across, three architectures down.
     float atlasColumn=uLights[i]<.5?1.:(uLights[i]<1.5?0.:uLights[i]);
     float atlasRow=uKinds[i];
-    vec2 atlasUV=vec2((atlasColumn+uv.x)/4.,(2.-atlasRow+uv.y)/3.);
+    vec2 safeUV=clamp(uv,vec2(.003),vec2(.997));
+    vec2 atlasUV=vec2((atlasColumn+safeUV.x)/4.,(2.-atlasRow+safeUV.y)/3.);
     vec4 arch=texture2D(uArches,atlasUV);
     float arrive=smoothstep(4.1,7.0,distance);
     float shade=.85/(1.+max(0.,distance-9.)*.027);
@@ -114,7 +115,13 @@ function webGL(canvas,images){
   gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,repeat?gl.REPEAT:gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,repeat?gl.REPEAT:gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  // Minified flagstones without mipmaps form false horizontal/vertical bands
+  // during forward camera motion (texture aliasing / moiré).
+  const pot=n=>(n&(n-1))===0;
+  const mip=pot(img.naturalWidth||img.width)&&pot(img.naturalHeight||img.height);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,mip?gl.LINEAR_MIPMAP_LINEAR:gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  if(mip)gl.generateMipmap(gl.TEXTURE_2D);
   gl.uniform1i(gl.getUniformLocation(p,name),unit);
  }
  tex(images[0],0,'uWall');tex(images[1],1,'uFloor');tex(images[2],2,'uRoof');tex(images[3],3,'uArches',false);
