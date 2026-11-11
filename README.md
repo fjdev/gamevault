@@ -1,3 +1,20 @@
+# Game Vault · v19 — tableros limpios y legibles
+
+**Qué cambia:** se sustituye el renderizado granulado de los tres tableros interactivos por dibujo geométrico de alta densidad de píxeles en Canvas, sin ruido, tramado, imágenes reducidas y ampliadas, filtros de contraste, oscuridad artificial ni texturas envejecidas sobre las casillas. Se mantienen los elementos retro de la interfaz y el recorrido 3D del pasillo.
+
+- Mastermind: huecos y fichas definidos y pistas de cinco colores escalonadas **3 arriba + 2 abajo**, y de cuatro colores en distribución **2+2**. El tamaño de los indicadores deja márgenes entre sus anillos.
+- Othello: tablero verde de alto contraste y fichas blancas/negras bien delimitadas; la selección y las jugadas legales no tapan las fichas.
+- Battleship: cuadrículas y cinco barcos en el área de sus casillas, con impactos y disparos al agua diferenciados; el estado hundido se indica con una línea perimetral, no una etiqueta que tape casillas. Los barcos enemigos solo se muestran al finalizar o cuando están hundidos, conforme a las reglas existentes.
+- Pasillo: se conserva el atlas de arcos sin postes y travesaños añadidos desde la v18, con mipmaps y filtrado para evitar bandas de muaré. No se ha reemplazado el estilo retro del loop.
+- Renderizado: se mantiene el sistema de coordenadas lógicas de 320 unidades y la resolución de pantalla (2–3×) ya introducida en v17. Las pruebas de reglas y coordenadas siguen pasando.
+- PWA: identificador de caché actualizado a v19. Las páginas, los scripts y los CSS prefieren la versión más reciente cuando hay conexión.
+
+Para usarlo, descomprime el ZIP y publica la carpeta en el mismo servidor HTTPS o prueba con `python -m http.server 8000`. Tras actualizar una instalación anterior de la PWA, cierra y vuelve a abrirla para que el trabajador de servicio y los módulos se renueven.
+
+**Verificación:** 29 tests de lógica y correspondencia de clics, más una captura de los cuatro renderizados en Chromium sin errores de JavaScript. La navegación completa del sitio en el navegador no se ha podido validar en este entorno por el bloqueo de navegación local.
+
+---
+
 # GAME VAULT · v17 | Sharper gameplay, corrected corridor texture filtering
 
 This release addresses the visual legibility issues identified in v16. Read `VISUAL_CHANGES_V17.md` for the precise technical changes and limitations. Three concept-driven menu still lifes are included, while the dynamic gameplay boards retain the registered v15 assets and 320px logical hit coordinates. The corridor remains animated and uses mipmapping to reduce perspective texture aliasing.
