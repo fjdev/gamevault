@@ -1,0 +1,161 @@
+@font-face{font-family:VaultPixel;src:url('../../assets/fonts/vault-pixel.ttf') format('truetype');font-display:swap}
+:root{color-scheme:dark;--bg:#060708;--ink:#e1d7bc;--dim:#9b9c98;--gold:#d4ad69;--copper:#a86d40;--edge:#6b6255;--panel:#151a1d;--pixel:VaultPixel,'Courier New',monospace;font-family:var(--pixel);font-size:13px}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--ink);min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse at 50% 14%,#263036 0%,#111517 33%,#070809 76%);font-family:var(--pixel);-webkit-tap-highlight-color:transparent}body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.22;background-image:repeating-linear-gradient(0deg,transparent 0 3px,#030506 3px 4px),repeating-linear-gradient(90deg,#e3d8b008 0 2px,transparent 2px 7px)}button,a,input{font:inherit}button{touch-action:manipulation;cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}button:focus-visible,a:focus-visible{outline:2px solid #fff3bb;outline-offset:3px}.shell{margin:auto;max-width:580px;min-height:100dvh;padding:14px 13px 28px}.vault-header{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #554b3a;padding:2px 0 13px;min-height:53px}.vault-back{white-space:nowrap;font-size:10px;color:#d3b67d}.vault-brand{display:block;text-align:center;font-family:Georgia,serif;font-weight:900;letter-spacing:-.06em;line-height:.8;font-size:23px;color:#c8e0ee;text-shadow:2px 2px #243c62,-1px -1px #e2ebf5,0 4px #060708}.vault-brand span{display:block;font-size:22px}.tool-button{font-size:20px;border:2px solid #736348;background:#161b1d;color:var(--gold);height:37px;min-width:37px;box-shadow:inset 0 0 0 2px #20292b,3px 3px #050607}.ribbon{font-size:10px;letter-spacing:.16em;color:#a68b60;text-align:center;padding:17px 0 8px}.game-name{font-family:Georgia,'Times New Roman',serif;text-align:center;line-height:.94;text-shadow:3px 4px #060708,0 0 18px #18252a;color:#f3e8c9;font-size:clamp(36px,11vw,56px);letter-spacing:-.015em;font-weight:bold;margin:0 0 10px}.game-name small{display:block;font-family:var(--pixel);font-size:10px;letter-spacing:.2em;font-weight:normal;color:#b7a477;margin-bottom:12px}.story{color:#adada4;text-align:center;font-size:11px;line-height:1.75;max-width:390px;margin:10px auto 20px}.rune-wrap{margin:12px auto 8px;width:min(57vw,204px);aspect-ratio:1;position:relative;display:grid;place-items:center;border:5px solid #090b0d;box-shadow:0 0 0 2px #73674c,0 0 0 5px #232323,0 12px 34px #000;image-rendering:pixelated;background:#141716}.rune-wrap:before{content:"";position:absolute;inset:7px;border:2px dashed #807052;pointer-events:none}.rune-wrap img{width:100%;height:100%;image-rendering:pixelated;object-fit:cover}.rune-caption{text-align:center;color:#b89a5a;font-size:10px;letter-spacing:.17em;margin:10px 0 23px}.panel{border:3px solid #71634c;box-shadow:inset 0 0 0 2px #201e18,inset 0 0 0 5px #38382c,0 7px #030405;background:linear-gradient(135deg,#20282a,#141a1c 45%,#101316);padding:18px 15px;margin:14px auto;max-width:520px}.menu-panel{padding:21px 18px 19px;margin:15px 0}.section-title{font-size:13px;color:var(--gold);text-align:center;margin:0 0 16px;letter-spacing:.08em}.subtitle{font-size:10px;color:#a4a49c;text-align:center;line-height:1.65}.pixel-button{display:flex;align-items:center;justify-content:space-between;text-align:left;gap:16px;width:100%;min-height:56px;padding:13px 14px;margin:10px 0;color:#e6dab9;background:#222b2b;border:2px solid #918163;box-shadow:inset 0 0 0 2px #3a4440,4px 4px #08090a;text-transform:uppercase;letter-spacing:.035em;font-size:12px}.pixel-button:hover:not(:disabled){background:#36403a;border-color:#d5b677}.pixel-button:active:not(:disabled){transform:translate(2px,2px);box-shadow:inset 0 0 0 2px #3a4440,2px 2px #08090a}.pixel-button.primary{background:#72532b;border-color:#d8ba78;color:#fff3cf;box-shadow:inset 0 0 0 2px #9b7a47,4px 4px #08090a}.pixel-button.primary:hover:not(:disabled){background:#95723a}.pixel-button.tertiary{min-height:39px;background:#191e20;border-color:#625b4f;color:#c4bca6;font-size:10px;justify-content:center}.pixel-button .arrow{color:#e3c88e;font-size:15px}.pixel-button span small{font-size:9px;color:#acaaa0;display:block;margin-top:6px;letter-spacing:.05em;line-height:1.45}.pixel-button.primary span small{color:#e5d0a7}.stack{display:flex;flex-direction:column}.home-footer{text-align:center;color:#6f797b;font-size:10px;padding:18px 0}.choice-row{display:flex;gap:9px;margin:10px 0 17px}.choice{min-width:0;flex:1;padding:12px 8px;min-height:46px;background:#131a1d;color:#b8b7a8;border:2px solid #55584d;box-shadow:inset 0 0 0 2px #222b2c;font-size:12px}.choice.selected{background:#4d422c;border-color:#e4c27c;color:#fff0c5}.setting{padding:13px 0;border-bottom:1px solid #4e4d3b}.setting:last-child{border:0}.setting-label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#e1d6ba;margin:0 0 13px}.setting-label output{color:#ffdc94;font-size:14px}.seg-row{display:flex;gap:6px;flex-wrap:wrap}.seg-row .choice{min-width:40px;padding:9px 4px;min-height:40px;flex:1}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;background:none;border:none;color:#e1d6ba;text-align:left;padding:6px 0;font-size:12px}.toggle-knob{flex:none;width:54px;height:28px;border:2px solid #837151;background:#191c1b;padding:3px;box-shadow:inset 0 0 0 2px #090e0f}.toggle-knob i{display:block;width:17px;height:17px;background:#777b71}.toggle-knob.on{background:#665631}.toggle-knob.on i{background:#f6ce7b;transform:translateX(22px)}.setting-note{color:#909990;font-size:10px;line-height:1.7;margin-top:10px}.back-link{display:block;text-align:center;color:#a99d88;font-size:11px;margin-top:16px;background:none;border:0;width:100%;padding:10px}.play-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:18px 0 11px}.play-heading h1{font-family:Georgia,serif;font-size:27px;letter-spacing:.01em;color:#e7d4a6;margin:0}.play-heading .meta{font-size:9px;color:#b8ad8b;text-align:right;line-height:1.7}.status{background:#141918;border:2px solid #59543e;padding:11px;color:#d7c18b;line-height:1.5;font-size:11px;text-align:center;margin-bottom:12px;min-height:38px}.board-stage{max-width:440px;margin:auto;display:flex;justify-content:center;align-items:flex-start;overflow:visible}.pixel-board{image-rendering:pixelated;display:block;width:min(100%,400px);height:auto;touch-action:manipulation;cursor:crosshair;outline:none}.board-caption{text-align:center;color:#9e9580;font-size:10px;margin:10px 0}.action-bar{padding:12px 9px;background:#14191beF;border:2px solid #62553f;margin:12px 0 10px;box-shadow:0 4px #030405}.action-bar.sticky{position:sticky;bottom:7px;z-index:10;backdrop-filter:blur(5px)}.action-line{display:flex;gap:9px}.action-line .pixel-button{margin:3px 0;flex:1;justify-content:center;min-height:44px;padding:9px 6px;font-size:10px}.color-palette{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:5px 0 12px}.color-btn{width:42px;height:42px;border:2px solid #847251;background:#1c2321;display:grid;place-items:center;box-shadow:2px 3px #050607;padding:3px}.color-btn:focus-visible{outline:2px solid #fff}.color-chip{display:block;width:27px;height:27px;image-rendering:pixelated;clip-path:polygon(15% 0,85% 0,100% 15%,100% 85%,85% 100%,15% 100%,0 85%,0 15%);box-shadow:inset 5px 5px #ffffff60,inset -5px -5px #00000088;background:var(--paint)}.color-btn:disabled{opacity:.4}.pixel-button.restart{min-height:36px;font-size:10px;background:transparent;border-color:#595446;justify-content:center}.option-list{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.ship-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}.ship-entry{border:2px solid #645c51;background:#182125;padding:10px 7px;color:#d0c9af;min-height:56px;text-align:left;font-size:10px;line-height:1.7}.ship-entry.selected{background:#665330;border-color:#f3d087;color:#ffedbb}.ship-entry.placed:after{content:'  ✓';color:#9bd4a3}.ship-entry small{color:#8ba9ad;font-size:9px}.legend{font-size:10px;color:#a0a6a4;line-height:1.8;text-align:center;margin:12px 0}.privacy{max-width:440px;margin:80px auto 0;text-align:center}.privacy .lock{font-size:66px;color:#be9855;text-shadow:0 0 18px #9b6225}.privacy h1,.result-page h1{font-family:Georgia,serif;font-size:37px;color:#efe1bd;margin:10px 0 18px}.privacy p,.result-page p{font-size:11px;color:#c1b8a8;line-height:1.8}.result-page{text-align:center;margin-top:50px}.result-page .seal{font-size:50px;color:#d7b26a;margin:18px}.game-message{text-align:center;color:#d8b76a;font-size:11px;padding:8px}.modal-back{position:fixed;inset:0;background:#000c;display:flex;justify-content:center;align-items:center;padding:15px;z-index:30}.modal{width:min(100%,430px);border:3px solid #bea26a;background:#13191b;padding:20px;box-shadow:0 0 0 5px #080a0a,0 18px 45px #000}.modal h2{color:#efdcab;font-family:Georgia,serif;font-size:29px;margin:0 0 12px}.modal p{line-height:1.8;font-size:11px;color:#c8c1af}.modal button{margin-top:12px}.help-content{font-size:11px;line-height:1.8;color:#c2bca9}.help-content strong{color:#e8d2a0}.play-mini{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}.scoreline{display:flex;justify-content:center;gap:20px;font-size:11px;color:#d8c494;margin:13px 0}.scoreline span{padding:10px;border:1px solid #665a43}.result-code{display:flex;justify-content:center;gap:8px;margin:25px 0}.result-code .color-chip{width:33px;height:33px}.badge-info{font-size:9px;border:1px solid #6d5e45;padding:7px 9px;color:#d8c18b}body[data-game='mastermind']{--gold:#d9a66a}body[data-game='othello']{--gold:#b7d1ab}body[data-game='battleship']{--gold:#b6c9d9}
+@media(max-width:359px){.shell{padding:9px 8px 20px}.vault-brand{font-size:19px}.vault-brand span{font-size:18px}.rune-wrap{width:150px}.game-name{font-size:38px}.panel{padding:13px 10px}.seg-row .choice{min-width:36px;font-size:11px}.choice-row .choice{font-size:10px}.color-btn{width:38px;height:38px}.color-chip{width:25px;height:25px}}
+@media(min-width:720px){.shell{padding:18px 26px 50px}.rune-wrap{width:204px}.menu-panel{margin-top:28px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* The battle control rail is visible while inspecting the upper or lower half of the physical console. */
+body[data-game='battleship'] .shell:has(.action-bar.fixed){padding-bottom:104px}
+.action-bar.fixed{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:12;width:min(548px,calc(100% - 18px));margin:0;box-shadow:0 2px 24px #000d}
+/* v13: physical game objects in the same dark, low-resolution photographic world as the hall.
+   The vintage boards retain their own real-world colors and materials. */
+body{background:radial-gradient(ellipse at 13% 30%,#6b441c21 0%,transparent 35%),radial-gradient(ellipse at 70% 8%,#2e34382f 0%,transparent 55%),#060809}
+.board-stage{position:relative;isolation:isolate;border:1px solid #50442b58;border-radius:3px;padding:7px 5px 13px;background:radial-gradient(ellipse at 20% 7%,#d48a3b25,transparent 51%),linear-gradient(154deg,#1b1b16c4,#11181a 58%,#040707d9),url('../../assets/art/floor-flagstone.png');background-size:auto,auto,170px 170px;box-shadow:inset 0 1px 1px #c29f6748,inset 0 0 30px #000a,0 14px 30px #000d}
+.board-stage::after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid #c1a36b1a;box-shadow:inset 0 0 25px #000a;z-index:1}
+.pixel-board{width:min(100%,394px);image-rendering:pixelated;filter:drop-shadow(2px 8px 6px #000c) contrast(1.05) saturate(.90)}
+.color-chip{border-radius:50%;clip-path:none;box-shadow:inset -3px -4px 5px #0008,inset 2px 2px 3px #fff7,1px 2px 0 #070b0c;background:radial-gradient(circle at 27% 22%,#ffffffd8 0,transparent 27%),var(--paint);border:1px solid #120d0c88}
+
+/* V14 / ARCHIVAL PHOTOGRAPHIC TREATMENT ----------------------------------
+   The title corridor and game screens share the same low-resolution world.
+   A physical object replaces the fantasy-icon hero in each game lobby.
+   Game coordinates and event targets are untouched. */
+body{
+ background-color:#060807;
+ background-image:linear-gradient(180deg,rgba(2,5,5,.58) 0%,rgba(2,5,5,.81) 42%,rgba(2,5,5,.94) 100%),url('../../assets/art/corridor-fallback-v13.png');
+ background-repeat:no-repeat;
+ background-size:cover;
+ background-position:center top;
+ background-attachment:fixed;
+}
+body::before{
+ content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:1;
+ background:radial-gradient(ellipse at 50% 20%,transparent 4%,rgba(0,0,0,.38) 78%,rgba(0,0,0,.70) 100%),
+ repeating-linear-gradient(0deg,transparent 0px,transparent 3px,#090e0d23 4px),
+ repeating-linear-gradient(90deg,#eed7b305 0 1px,transparent 1px 4px);
+}
+.shell{position:relative;z-index:1;max-width:550px;padding-top:8px}
+.vault-header{border-color:#6c655047;min-height:58px;padding-bottom:3px;background:linear-gradient(90deg,transparent,#0005,transparent)}
+.vault-back{color:#d1c5a5;font-size:10px;text-shadow:1px 2px #000}
+.vault-brand{height:56px;width:105px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-shadow:none}
+.vault-brand img{display:block;object-fit:contain;width:105px;height:70px;image-rendering:pixelated;filter:brightness(.91) saturate(.72)}
+.tool-button{border:1px solid #786f5b;background:#0b1010e8;box-shadow:inset 0 0 0 1px #161c1b,2px 2px #000}
+.ribbon{font-size:9px;letter-spacing:.13em;color:#aa9777;text-shadow:1px 2px #000;padding-top:15px}
+.home-screen .game-name{font-family:Georgia,serif;font-weight:900;text-transform:uppercase;font-size:clamp(38px,10vw,54px);line-height:.98;letter-spacing:-.055em;margin:7px 0 15px;color:#e6dfcc;text-shadow:2px 3px #000,0 0 25px #000}
+.home-screen .game-name small{font-family:var(--pixel);font-size:9px;font-weight:normal;letter-spacing:.20em;color:#c9b18b;margin-bottom:11px}
+.artifact{position:relative;width:100%;margin:5px auto 13px;padding:0 0 20px;max-width:486px;background:#020505;box-shadow:0 14px 33px #000d,0 0 0 1px #756b503d,0 0 0 5px #080a08be}
+.artifact:after{content:"";pointer-events:none;position:absolute;inset:0 0 20px;box-shadow:inset 0 0 35px #0009;background:linear-gradient(105deg,#d5ab6420,transparent 25%,transparent 73%,#0006);mix-blend-mode:screen}
+.artifact-photo{width:100%;height:auto;display:block;image-rendering:pixelated;filter:contrast(1.16) saturate(.80)}
+.artifact-stamp{position:absolute;left:12px;top:12px;width:39px;height:39px;background:#060a0bd9;border:1px solid #817b67a0;box-shadow:2px 3px #0009;z-index:2}
+.artifact-stamp img{width:100%;height:100%;image-rendering:pixelated}
+.artifact-meta{position:absolute;bottom:0;left:0;right:0;height:20px;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 11px;color:#9b927d;font-size:8px;letter-spacing:.045em;background:#080b0b}
+.artifact-meta span{margin:0 auto;opacity:.45}
+.story{color:#bbb7a9;line-height:1.66;font-size:10px;text-shadow:1px 1px #000;margin:16px auto 18px}
+.panel{background:linear-gradient(155deg,#13191aef,#090e0ff3);border:1px solid #746c5680;box-shadow:inset 0 0 0 2px #070b0b,inset 0 3px 14px #0008,0 9px 24px #000b}
+.menu-panel{margin:14px 0 6px;padding:15px 15px 14px}
+.section-title{color:#c6b597;font-size:11px;letter-spacing:.14em;margin:0 0 13px;text-shadow:1px 2px #000}
+.pixel-button{border:1px solid #84785f;box-shadow:inset 0 1px #ddcfa021,inset 0 -2px #0008,3px 4px #000c;background:linear-gradient(90deg,#121919,#1c2220);min-height:53px;color:#e7ddc4;padding:12px 13px}
+.pixel-button:hover:not(:disabled){background:#252d29;border-color:#d5b67d}
+.pixel-button.primary{background:linear-gradient(90deg,#493d2c,#695539);border-color:#bbaa81;box-shadow:inset 0 1px #f4d4a555,inset 0 -2px #201609,3px 4px #000d}
+.pixel-button .arrow{color:#c9b593;font-size:11px}
+.pixel-button span small{color:#998e7a;font-size:9px}
+.pixel-button.primary span small{color:#d5c19f}
+.home-footer{padding:17px 0 10px;color:#888574;font-size:8px;letter-spacing:.035em}
+.setting,.action-bar,.status{border-color:#6b655280;background:#0c1112eb}
+.choice{border:1px solid #5e604f;background:#101819d9;box-shadow:inset 0 0 0 1px #27302c}
+.choice.selected{border-color:#baa879;background:#4b432f}
+.play-heading h1{font-family:Georgia,serif;color:#dfd5bd;text-transform:uppercase;font-weight:900;font-size:25px}
+.board-stage{background:radial-gradient(ellipse at 22% 14%,#c58a4438,transparent 45%),linear-gradient(165deg,#0e1314aa,#020506df),url('../../assets/art/floor-flagstone.png');background-size:auto,auto,180px 180px;border:1px solid #77705b4f;padding:12px 9px 17px;box-shadow:inset 0 0 20px #0009,0 15px 27px #000d}
+.pixel-board{filter:drop-shadow(3px 10px 7px #000e) contrast(1.07) saturate(.9)}
+.modal{background:#0c1313;border:1px solid #b5a478;box-shadow:0 0 0 5px #080b0a,0 15px 45px #000}
+@media(min-width:720px){.home-screen .game-name{font-size:53px}.artifact{max-width:455px}.shell{padding:12px 24px 50px}}
+
+/* v16 — One visual language from the first Vault frame through every submenu.
+   Type and UI borrow the restrained 1990s pixel terminal motif from vault.css;
+   real photographed boards remain the focal point. */
+:root{--bg:#030505;--ink:#e9e3c9;--dim:#a4a58f;--gold:#dacfaa;--edge:#8b866d;--panel:#070909;font-family:VaultPixel,'Courier New',monospace}
+html,body,button,input{font-family:VaultPixel,'Courier New',monospace}
+body{background:#030505;color:var(--ink);background-image:none}
+body::before{background:linear-gradient(90deg,#000b,transparent 25%,transparent 75%,#000b),linear-gradient(180deg,#0005,#020404ac 54%,#000a);opacity:1;z-index:0}
+.corridor-backdrop{position:fixed;inset:0;width:min(100%,600px);left:50%;transform:translateX(-50%);pointer-events:none;z-index:0;opacity:.63;filter:brightness(.74) saturate(.74);overflow:hidden;background:#030505 url('../../assets/art/corridor-fallback-v13.png') center/cover no-repeat}
+.corridor-backdrop canvas{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+.corridor-backdrop .dungeon-surface{z-index:1}
+.corridor-backdrop::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,#0001,#000b 75%,#000d),radial-gradient(ellipse at center,transparent 15%,#0008 100%)}
+.shell{z-index:1;position:relative;max-width:550px;background:linear-gradient(180deg,#030505ad,#030505b5 350px,#030505e5 700px);padding-top:7px}
+.vault-header{border-bottom:1px solid #c5c19a60;background:#030403a8;min-height:48px;padding:0 0 5px}
+.vault-back{font:inherit;color:#d9d7b5;font-size:11px;text-shadow:1px 2px #000;letter-spacing:.035em}
+.vault-back:hover{color:#fff2bd}
+.vault-brand{height:48px;width:100px;filter:none}
+.vault-brand img{width:98px;height:63px;filter:brightness(.96) saturate(.95);image-rendering:pixelated}
+.tool-button{font:inherit;font-size:16px;min-width:35px;height:34px;border:1px solid #c0bb94;background:#030605dd;color:#e5dfbb;box-shadow:2px 2px #000}
+.ribbon{font-size:10px;line-height:1.5;letter-spacing:.06em;color:#c7c2a5;padding:17px 0 8px;text-shadow:2px 2px #000}
+.home-screen .game-name,.game-name,.play-heading h1,.privacy h1,.final-summary h1,.result-page h1,.modal h2{
+ font-family:VaultPixel,'Courier New',monospace;text-transform:uppercase;font-weight:400;letter-spacing:.025em;text-shadow:2px 2px #000;line-height:1.25;color:#f1ebcd
+}
+.home-screen .game-name,.game-name{font-size:clamp(25px,7vw,39px);margin:4px 0 14px;letter-spacing:.04em}
+.home-screen .game-name small,.game-name small{font-family:VaultPixel,'Courier New',monospace;font-size:10px;font-weight:400;letter-spacing:.08em;color:#bcb99b;margin:0 0 8px}
+.story{font-size:11px;line-height:1.75;margin:12px auto 18px;color:#d0c9ac;max-width:440px}
+.artifact{border:2px solid #b1ad8c;box-shadow:0 0 0 2px #070a08,0 8px 23px #000d;max-width:465px;margin-top:8px;margin-bottom:13px;background:#070a09;padding-bottom:23px}
+.artifact-photo{filter:contrast(1.09) saturate(.82);image-rendering:pixelated}
+.artifact::after{background:linear-gradient(145deg,#9c875011,transparent 38%,#0007)}
+.artifact-meta{height:23px;background:#050706;color:#c8c09e;font-size:9px;letter-spacing:.055em}
+.panel,.menu-panel{background:#030504f2;border:2px solid #bdb89a;box-shadow:0 0 0 2px #181a11,0 5px 0 #000,0 8px 23px #000b;padding:13px 12px}
+.section-title{font-family:var(--pixel);font-size:11px;letter-spacing:.07em;font-weight:400;color:#e7e0ba;text-align:center;margin:0 0 12px;padding-bottom:7px;border-bottom:1px solid #8a896d}
+.pixel-button,.pixel-button.primary,.pixel-button.tertiary{
+ font-family:var(--pixel);font-weight:400;min-height:47px;border:1px solid #6b735b;box-shadow:2px 2px #000c;
+ background:#070b09ed;color:#e8e2c5;padding:10px 12px;font-size:12px;letter-spacing:.03em
+}
+.pixel-button.primary{background:#313a27;border-color:#ded5af;color:#fff2ce}
+.pixel-button.tertiary{background:#090e0c;border-color:#747a66;color:#c5bea4;min-height:39px;font-size:10px}
+.pixel-button:hover:not(:disabled),.pixel-button.primary:hover:not(:disabled){background:#343d23;border-color:#e5dcba;color:#fff3c9}
+.pixel-button:active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px #000}
+.pixel-button .arrow{font-size:15px;color:#e4ddb9;font-weight:400}
+.pixel-button span small,.pixel-button.primary span small{color:#aaa992;font-size:9px;line-height:1.5;letter-spacing:0;margin-top:5px}
+.menu-panel .pixel-button{margin:7px 0}
+.home-footer{font-size:9px;color:#9a9b87;padding:13px 0}
+.setting,.action-bar,.status{background:#050807ee;border-color:#777762b9;box-shadow:2px 2px #000}
+.setting-label{font-size:12px;color:#e9e0c0}
+.setting-label output{font-size:13px;color:#f0e1a7}
+.setting-note{color:#b6b3a0;font-size:10px}
+.choice,.choice.selected{font-family:var(--pixel);font-weight:400;box-shadow:1px 1px #000;background:#070b09e8;color:#d9d4ba;border:1px solid #68745e;padding:9px 5px;min-height:42px}
+.choice.selected,.choice:hover{background:#343d23;border-color:#dfd3a5;color:#fff2cd}
+.setting[data-setting='colors'] .seg-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.setting[data-setting='colors'] .choice{min-width:0;width:100%}
+.back-link{color:#d7d1b4;font-size:10px}
+.play-heading h1{font-size:clamp(17px,4.7vw,23px);margin:0}
+.play-heading .meta{font-size:9px;color:#d0c8a5}
+.status{font-size:10px;line-height:1.6;color:#e6dbad;border:1px solid #999579;min-height:37px}
+.board-stage{border:1px solid #777b6a;background:linear-gradient(165deg,#0b1113bd,#020406e8),url('../../assets/art/floor-flagstone.png');background-size:auto,180px 180px;box-shadow:inset 0 0 18px #000c,0 12px 24px #000d}
+.board-caption{font-size:9px;color:#bab6a0;letter-spacing:0;line-height:1.7}
+.action-bar{border:1px solid #a19c7d;padding:12px 10px}
+.color-palette{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:7px 0 13px}
+.color-btn{width:100%;min-width:0;height:61px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid #777b68;background:#080e0dcc;box-shadow:2px 2px #000b;padding:5px 1px}
+.color-btn:hover,.color-btn:focus-visible{background:#343d23;border-color:#ddd0ab}
+.color-chip{width:26px;height:26px}
+.chip-name{font:normal 7px/1.15 VaultPixel,monospace;color:#ede5ce;text-transform:uppercase;letter-spacing:0;white-space:nowrap}
+.ship-entry{font-family:var(--pixel);border:1px solid #696f5c;background:#060b0b;color:#e4dcc0}
+.ship-entry.selected{background:#343d23;border-color:#e7dfb5;color:#fff2cd}
+.ship-entry.placed:after{color:#a9d6a1}
+.privacy h1,.final-summary h1,.result-page h1{font-size:clamp(19px,5.8vw,29px);margin:9px 0}
+.privacy p,.final-summary p,.result-page p{font-size:11px;color:#c9c4a8;line-height:1.7}
+.privacy .lock,.result-page .seal{color:#d8d0a8;text-shadow:2px 2px #000}
+.modal{border:2px solid #d8d1ab;background:#050807;box-shadow:0 0 0 3px #0e120c,0 18px 35px #000}
+.modal h2{font-size:22px;color:#f5edcd}
+.help-content,.modal p{color:#d3cbae;font-size:11px}
+.final-summary{text-align:center;margin:14px auto 12px;padding:10px 15px;background:#030503e8;border:2px solid #d3c8a5;box-shadow:0 4px #000}
+.final-summary .ribbon{padding:2px 0 5px}
+.final-summary h1{margin:7px 0}
+.final-summary p{margin:7px 0 10px}
+.final-actions{display:grid;gap:8px;margin:16px 0 26px;padding:12px;border:1px solid #999276;background:#050807f0}
+.final-actions .pixel-button{margin:0}
+.final-secret{background:#050806e9;border:1px solid #8d8b71;padding:11px 9px;margin:15px 0;text-align:center;font-size:10px}
+.final-secret>span{color:#ede5c1}
+.result-code{gap:8px;flex-wrap:wrap;margin:13px 0 3px}
+.final-peg{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:36px}
+.final-peg small{font:normal 8px/1.25 VaultPixel,monospace;color:#ddd5b7;text-transform:uppercase}
+.sunk-notice{display:flex;align-items:center;justify-content:center;gap:11px;text-align:left;padding:11px 12px;margin:0 0 11px;background:#250b0be8;border:2px solid #e66e5e;box-shadow:inset 0 0 0 2px #120609,0 4px #000;color:#ffd6cb}
+.sunk-notice .sunk-symbol{font:25px/1 VaultPixel,monospace;color:#ff8b7e}
+.sunk-notice strong{display:block;font-size:12px;letter-spacing:.03em;font-weight:400}
+.sunk-notice small{display:block;font-size:10px;color:#f0b0a1;margin-top:4px}
+body[data-game='mastermind'],body[data-game='othello'],body[data-game='battleship']{--gold:#dacfaa}
+@media(max-width:359px){.shell{padding-left:8px;padding-right:8px}.color-palette{gap:4px}.chip-name{font-size:6.3px}.color-btn{height:55px}.color-chip{width:22px;height:22px}.home-screen .game-name{font-size:25px}.menu-panel{padding:10px}}
+@media(prefers-reduced-motion:reduce){.corridor-backdrop canvas{animation:none}}
